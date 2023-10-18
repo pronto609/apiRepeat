@@ -49,6 +49,7 @@ use function Symfony\Component\String\u;
     paginationItemsPerPage: 10
 )]
 #[ApiFilter(PropertyFilter::class)]
+#[ApiFilter(SearchFilter::class, properties: ['owner.username' => 'exact'])]
 class DragonTreasure
 {
     #[ORM\Id]
@@ -95,6 +96,7 @@ class DragonTreasure
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['treasure:read','treasure:write'])]
     #[Assert\Valid]
+    #[ApiFilter(SearchFilter::class, strategy: 'exact')]
     private ?User $owner = null;
 
     public function __construct(string $name = null)
